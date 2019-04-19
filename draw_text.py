@@ -1,7 +1,6 @@
 import pyglet
 
 
-
 def draw_text(text, x, y, size, anchor_x):
     '''
     Draw text in playfield.

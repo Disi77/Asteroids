@@ -7,12 +7,11 @@ from pyglet import gl
 
 from draw_text import draw_text
 from main_menu import menu
-from game_settings import GAME_WINDOW, ACCELERATION, ROTATION_SPEED, GAME, OBJECTS, time_to_change_level, time_explosion, ufo_in_game
-from SpaceObject import SpaceObject, Ufo, Spaceship, Asteroid, Laser, Engine, Life, explosion
-from img import GAME_IMG, explosion_image, background_image, life_image, ship_image, batch_front, batch_effects, batch_objects, batch_ufo, batch_explosion
+from game_settings import GAME_WINDOW, GAME, OBJECTS, time_to_change_level, time_explosion, ufo_in_game
+from SpaceObject import Ufo, Spaceship, Asteroid, Laser, Life, explosion
+from img import background_image, batch_front, batch_effects, batch_objects, batch_ufo, batch_explosion
 from control import pressed_keys, on_key_press, on_key_release
 from pause import pause
-
 
 
 def draw_circle(x, y, radius):
@@ -35,7 +34,7 @@ def draw_circle(x, y, radius):
     gl.glEnd()
 
 
-def background(opacity,color):
+def background(opacity, color):
     '''
     Set and draw background image in game.
     If the image is smaller than a window,
@@ -58,7 +57,7 @@ def on_draw():
     Draw all objects in game.
     '''
     window.clear()
-    background(100,(255,255,255))
+    background(100, (255, 255, 255))
 
     # # You have to visible this 2 rows of code, if you can use "draw_circle"
     # for object in OBJECTS:
@@ -79,23 +78,23 @@ def on_draw():
             # Restore remembered state (this cancels the glTranslatef)
             gl.glPopMatrix()
     draw_text('LIFES',
-                  x= 30,
-                  y= 15,
+                  x=30,
+                  y=15,
                   size=18,
                   anchor_x='left')
     draw_text(str(GAME['score']),
-                  x= GAME_WINDOW[0] - 200,
-                  y= 15,
+                  x=GAME_WINDOW[0] - 200,
+                  y=15,
                   size=18,
                   anchor_x='left')
     draw_text('LEVEL   ' + str(GAME['level']),
-                  x= GAME_WINDOW[0] // 2,
-                  y= 15,
+                  x=GAME_WINDOW[0] // 2,
+                  y=15,
                   size=18,
                   anchor_x='center')
     draw_text('enter   =   pause',
-                  x= GAME_WINDOW[0] // 2,
-                  y= GAME_WINDOW[1] - 20,
+                  x=GAME_WINDOW[0] // 2,
+                  y=GAME_WINDOW[1] - 20,
                   size=12,
                   anchor_x='center')
     batch_front.draw()
@@ -103,45 +102,45 @@ def on_draw():
     # Move to the next level
     if GAME['state'] == 'new_level':
         draw_text('LEVEL   ' + str(GAME['level']+1),
-                      x= GAME_WINDOW[0] // 2,
-                      y= GAME_WINDOW[1] // 2,
+                      x=GAME_WINDOW[0] // 2,
+                      y=GAME_WINDOW[1] // 2,
                       size=40,
                       anchor_x='center')
 
     # Settings for drawing explosion image.
     if GAME['state'] == 'ship explosion' or GAME['state'] == 'ufo explosion' or GAME['state'] == 'game_over':
-        if 0<time_explosion[0]<1:
+        if 0 < time_explosion[0] < 1:
             explosion.scale = 0.3*time_explosion[0]
-        elif 1<time_explosion[0]<2:
+        elif 1 < time_explosion[0] < 2:
             explosion.scale = 0.3
             explosion.opacity = 255-127.5*time_explosion[0]
         batch_explosion.draw()
 
     # Main Menu
     if GAME['state'] == 'menu':
-        background(255,(200,200,0))
+        background(255, (200, 200, 0))
         menu()
 
     # Pause in game
     if GAME['state'] == 'pause':
-        background(100,(200,200,0))
+        background(100, (200, 200, 0))
         pause()
 
     # Game over
     if GAME['state'] == 'game_over':
         draw_text('game   over',
-                      x= GAME_WINDOW[0] // 2,
-                      y= GAME_WINDOW[1] // 2,
+                      x=GAME_WINDOW[0] // 2,
+                      y=GAME_WINDOW[1] // 2,
                       size=40,
                       anchor_x='center')
         draw_text('SCORE   =   {}'.format(GAME['score']),
-                      x= GAME_WINDOW[0] // 2,
-                      y= GAME_WINDOW[1] // 2 - 60,
+                      x=GAME_WINDOW[0] // 2,
+                      y=GAME_WINDOW[1] // 2 - 60,
                       size=20,
                       anchor_x='center')
         draw_text('LEVEL   =   {}'.format(GAME['level']),
-                      x= GAME_WINDOW[0] // 2,
-                      y= GAME_WINDOW[1] // 2 - 90,
+                      x=GAME_WINDOW[0] // 2,
+                      y=GAME_WINDOW[1] // 2 - 90,
                       size=20,
                       anchor_x='center')
 
@@ -171,7 +170,7 @@ def new_game():
     add_asteroids()
 
     GAME['lifes'] = 3
-    for i in range(1,4):
+    for i in range(1, 4):
         OBJECTS.append(Life(i))
 
 
@@ -179,7 +178,7 @@ def new_level():
     '''
     Move to the next level.
     '''
-    GAME['level'] +=1
+    GAME['level'] += 1
     GAME['shield'] = 3
     GAME['state'] = 'game'
     add_asteroids()
@@ -246,7 +245,6 @@ def tick(dt):
             time_explosion[0] = 0
             GAME['state'] = 'menu'
 
-
     # If state is game or new level is starting, all abject in game still moving.
     if GAME['state'] == 'game' or GAME['state'] == 'new_level':
         for object in OBJECTS:
@@ -278,7 +276,7 @@ def tick(dt):
             GAME['state'] = 'menu'
 
 
-window = pyglet.window.Window(GAME_WINDOW[0],GAME_WINDOW[1])
+window = pyglet.window.Window(GAME_WINDOW[0], GAME_WINDOW[1])
 
 
 new_game()

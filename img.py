@@ -2,7 +2,6 @@ import pyglet
 from pathlib import Path
 
 
-
 # Loading images for game
 batch_objects = pyglet.graphics.Batch()
 batch_effects = pyglet.graphics.Batch()
@@ -32,7 +31,6 @@ background_image = pyglet.image.load('PNG/Backgrounds/space3.jpg')
 explosion_image = pyglet.image.load('PNG/Explosion/Orange Explosion/explosion00.png')
 explosion_image.anchor_x = explosion_image.width // 2
 explosion_image.anchor_y = explosion_image.height // 2
-
 
 
 TILES_DIRECTORY = Path('PNG/Meteors')

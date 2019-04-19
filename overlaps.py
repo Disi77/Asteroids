@@ -1,7 +1,6 @@
 from game_settings import GAME_WINDOW
 
 
-
 def distance(a, b, wrap_size):
     '''
     Distance in one direction (x or y).
